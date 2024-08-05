@@ -1,0 +1,91 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: CloudFormation template to create a DynamoDB table with a sample item
+
+Resources:
+  DynamoDBTable:
+    Type: 'AWS::DynamoDB::Table'
+    Properties:
+      TableName: 'PolicyTable'
+      AttributeDefinitions:
+        - AttributeName: 'PolicyNumber'
+          AttributeType: 'S'
+      KeySchema:
+        - AttributeName: 'PolicyNumber'
+          KeyType: 'HASH'
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+
+  DynamoDBTablePolicy:
+    Type: 'AWS::IAM::Policy'
+    Properties: 
+      PolicyName: 'DynamoDBTablePolicy'
+      PolicyDocument: 
+        Version: '2012-10-17'
+        Statement: 
+          - Effect: 'Allow'
+            Action: 
+              - 'dynamodb:PutItem'
+              - 'dynamodb:GetItem'
+              - 'dynamodb:UpdateItem'
+              - 'dynamodb:DeleteItem'
+            Resource: 
+              - !GetAtt 
+                - DynamoDBTable
+                - Arn
+      Roles: 
+        - Ref: MyRole
+
+  MyRole:
+    Type: 'AWS::IAM::Role'
+    Properties: 
+      AssumeRolePolicyDocument: 
+        Version: '2012-10-17'
+        Statement: 
+          - Effect: 'Allow'
+            Principal: 
+              Service: 
+                - 'lambda.amazonaws.com'
+            Action: 
+              - 'sts:AssumeRole'
+
+  MyLambdaFunction:
+    Type: 'AWS::Lambda::Function'
+    Properties:
+      Handler: 'index.handler'
+      Role: 
+        Fn::GetAtt:
+          - MyRole
+          - Arn
+      Code:
+        ZipFile: |
+          import json
+          import boto3
+          
+          def handler(event, context):
+              dynamodb = boto3.resource('dynamodb')
+              table = dynamodb.Table('PolicyTable')
+              
+              item = {
+                  'PolicyNumber': '12345',
+                  'FirstName': 'Boris',
+                  'LastName': 'Acha'
+              }
+              
+              try:
+                  table.put_item(Item=item)
+                  return {
+                      'statusCode': 200,
+                      'body': json.dumps('Item inserted successfully')
+                  }
+              except Exception as e:
+                  return {
+                      'statusCode': 500,
+                      'body': json.dumps(str(e))
+                  }
+      Runtime: 'python3.8'
+
+Outputs:
+  TableName:
+    Description: 'IntervisionInsurance-Customer'
+    Value: !Ref DynamoDBTable

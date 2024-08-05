@@ -1,0 +1,17 @@
+{
+  "currentIntent": {
+    "name": "PolicyIncrease",
+    "slots": {
+      "PolicyNumber": "12345"
+    }
+  },
+  "bot": {
+    "name": "IntervisIon-Cus-Support"
+  },
+  "userId": "user",
+  "inputTranscript": "My policy has gone up",
+  "invocationSource": "FulfillmentCodeHook",
+  "outputDialogMode": "Text",
+  "messageVersion": "1.0",
+  "sessionAttributes": {}
+}
