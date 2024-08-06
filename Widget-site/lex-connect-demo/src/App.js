@@ -1,8 +1,9 @@
 import React from 'react';
 import './App.css';
-import ConnectChat from './components/ConnectChat';  // Ensure this path is correct
+import ConnectChat from './components/ConnectChat';
 
 function App() {
+  console.log('Rendering App Component'); // Add this log
   return (
     <div className="App">
       <header className="App-header">
@@ -32,7 +33,7 @@ function App() {
           efficiently. The chatbot will verify your identity, provide assistance with your issue, and 
           offer to connect you to a live agent if needed.
         </p>
-        <ConnectChat />  {/* This initializes and handles the chatbot */}
+        <ConnectChat />
       </header>
     </div>
   );

@@ -1,4 +1,3 @@
-// src/components/ConnectChat.js
 import { useEffect } from 'react';
 
 const ConnectChat = () => {
@@ -16,18 +15,21 @@ const ConnectChat = () => {
       window.amazon_connect('styles', {
         iconType: 'CHAT',
         openChat: { color: '#ffffff', backgroundColor: '#122854' },
-        closeChat: { color: '#ffffff', backgroundColor: '#123456'}
+        closeChat: { color: '#ffffff', backgroundColor: '#123456' }
       });
       window.amazon_connect('snippetId', 'QVFJREFIaWFZYXRVSlpIekdkUUg5YXhZenVQMktKRXNIWTVFQWpBYVErTEdzRnpvZHdIcTFpM0QwY3RDdU1ydUFEejZkUFBuQUFBQWJqQnNCZ2txaGtpRzl3MEJCd2FnWHpCZEFnRUFNRmdHQ1NxR1NJYjNEUUVIQVRBZUJnbGdoa2dCWlFNRUFTNHdFUVFNQnBwVkIyUDN2MmRtclp3bUFnRVFnQ3VDQ2Nxem40TzFxQmZRYWxzU2MvbzQzZk9pS1MrREFEeHdZOVVXOWNwNjdycXlmZTJHU3p1M2JROGg6OmYzUmNyZW9Pa2FjV1h4NkU4V3NhSENTM01MN0lRRHBCblFFVE4vbkorRWZKZ2lzTy94Q25BNzJvVHBhb0VTZUdjdFVvYjBwK1lQbHdneTMya0dNSSt5SWFJUGhxQkNqWnpULzY3eWVpRzFTam81dWtkY0txQUFQUzBhSjBWNjBtcjBuVHBCb3NhNVhCRHByUEJQbm9zUHZlRm9ZdkdiTT0=');
       window.amazon_connect('supportedMessagingContentTypes', [
-        'text/plain', 'text/markdown', 
-        'application/vnd.amazonaws.connect.message.interactive', 
+        'text/plain', 'text/markdown',
+        'application/vnd.amazonaws.connect.message.interactive',
         'application/vnd.amazonaws.connect.message.interactive.response'
       ]);
     };
 
     return () => {
-      document.getElementById('adaf3036-dde0-46ea-802d-5871b13c06b4')?.remove();
+      const scriptElement = document.getElementById('adaf3036-dde0-46ea-802d-5871b13c06b4');
+      if (scriptElement) {
+        scriptElement.remove();
+      }
     };
   }, []);
 
